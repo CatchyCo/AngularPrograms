@@ -1,44 +1,67 @@
 <div class="container">
     {{formData | json}}
-    <form>
+    <form #demoform='ngForm'>
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" name='name' [(ngModel)]='formData.name'>
+            <input type="text" class="form-control" #name='ngModel' pattern="[a-zA-Z\s]+"
+                [class.is-invalid]='name.invalid && name.dirty' name='name' [(ngModel)]='formData.name' required>
+            <small *ngIf="name.dirty && name.invalid" style='color:red'>
+                <ng-container *ngIf=" name.errors.required"> Please enter the name </ng-container>
+                <ng-container *ngIf=" name.errors.pattern"> Please use only alphabets, Mr Elon</ng-container>
+            </small>
         </div>
         <div class="form-group">
             <label for="name">Email</label>
-            <input type="text" class="form-control" name='email' [(ngModel)]='formData.email'>
+            <input type="email" class="form-control" #email='ngModel' [class.is-invalid]='email.invalid && email.dirty'
+                pattern="[^@\s]+@[^@\s]+\.[^@\s]+" name='email' [(ngModel)]='formData.email' required>
+            <small *ngIf="email.dirty && email.invalid" style='color:red'>
+                <ng-container *ngIf=" email.errors.required"> Please enter the Email </ng-container>
+                <ng-container *ngIf=" email.errors.pattern && email.dirty"> Please use Email pattern</ng-container>
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="">Contact</label>
+            <input type="text" class="form-control" #contact='ngModel' name='contact' pattern='[0-9999999999]+[0-10]'
+                [(ngModel)]='formData.contact' required>
+            <small *ngIf='contact.invalid && contact.touched' style='color:red'>
+                <ng-container *ngIf='contact.errors.required'>Please Enter the contact number</ng-container>
+                <ng-container *ngIf="contact.errors.pattern">Please enter valid number</ng-container>
+            </small>
         </div>
         <div class="form-group">
             <label for="name">Gender</label>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name='gender' value="Male" [(ngModel)]='formData.gender'>
-                <label class="form-check-label" for="exampleRadios1">
+                <label class="form-check-label">
                     Male
                 </label>
                 <input class="form-check-input ml-1" type="radio" name='gender' value="Female"
                     [(ngModel)]='formData.gender'>
-                <label class="form-check-label ml-4" for="exampleRadios2">
+                <label class="form-check-label ml-4">
                     Female
                 </label>
             </div>
         </div>
         <div class="form-group">
             <label for="name">Country</label>
-            <select class='form-control' name='country' [(ngModel)]='formData.country'>
+            <select class='form-control' name='country' #topic='ngModel' [(ngModel)]='formData.country'
+                placeholder="Select Your Country" required>
                 <ng-container *ngFor='let country of coutries'>
                     <option value='{{country}}'>{{country}}</option>
                 </ng-container>
             </select>
+            <ng-container style='color:red'> Please select topic </ng-container>
         </div>
         <div class="form-group">
             <div class="form-check form-check-inline">
                 <ng-container *ngFor='let skill of skills'>
-                    <input class="form-check-input ml-2" type="checkbox" id="inlineCheckbox1" #skill value="skill"
+                    <input class="form-check-input ml-2" type="checkbox" name='skill' value="skill"
                         (click)='addSkill(skill)'>
-                    <label class="form-check-label ml-1" for="inlineCheckbox1">{{skill}} </label>
+                    <label class="form-check-label">{{skill}} </label>
                 </ng-container>
             </div>
         </div>
     </form>
 </div>
+
+{{demoform.valid}}
