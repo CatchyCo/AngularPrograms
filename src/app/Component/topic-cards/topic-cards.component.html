@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="row ">
+        <div *ngFor="let list of List" class="col-lg-4  grid-list">
+            <div class="card" style="width:300px">
+                <img class="card-img-top" src="../../../assets/TemplateDriven/1.png" alt="Card image"
+                    style="width:100%">
+                <div class="card-body ">
+                    <h5 class="card-title">{{list.conceptTitle}}</h5>
+                    <p class="card-text">{{list.description}}</p>
+                    <a routerLink="{{list.routerLink}}" class="btn btn-primary">See Code</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

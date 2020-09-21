@@ -1,0 +1,44 @@
+<div class="container">
+    {{formData | json}}
+    <form>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" name='name' [(ngModel)]='formData.name'>
+        </div>
+        <div class="form-group">
+            <label for="name">Email</label>
+            <input type="text" class="form-control" name='email' [(ngModel)]='formData.email'>
+        </div>
+        <div class="form-group">
+            <label for="name">Gender</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name='gender' value="Male" [(ngModel)]='formData.gender'>
+                <label class="form-check-label" for="exampleRadios1">
+                    Male
+                </label>
+                <input class="form-check-input ml-1" type="radio" name='gender' value="Female"
+                    [(ngModel)]='formData.gender'>
+                <label class="form-check-label ml-4" for="exampleRadios2">
+                    Female
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name">Country</label>
+            <select class='form-control' name='country' [(ngModel)]='formData.country'>
+                <ng-container *ngFor='let country of coutries'>
+                    <option value='{{country}}'>{{country}}</option>
+                </ng-container>
+            </select>
+        </div>
+        <div class="form-group">
+            <div class="form-check form-check-inline">
+                <ng-container *ngFor='let skill of skills'>
+                    <input class="form-check-input ml-2" type="checkbox" id="inlineCheckbox1" #skill value="skill"
+                        (click)='addSkill(skill)'>
+                    <label class="form-check-label ml-1" for="inlineCheckbox1">{{skill}} </label>
+                </ng-container>
+            </div>
+        </div>
+    </form>
+</div>
