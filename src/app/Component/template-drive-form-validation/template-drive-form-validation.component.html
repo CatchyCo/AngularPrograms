@@ -1,5 +1,7 @@
+<div class="jumbotron">
+    <h1 class="display-4">Template Driven Form</h1>
+</div>
 <div class="container">
-    {{formData | json}}
     <form #demoform='ngForm'>
         <div class="form-group">
             <label for="name">Name</label>
@@ -31,28 +33,31 @@
         <div class="form-group">
             <label for="name">Gender</label>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name='gender' value="Male" [(ngModel)]='formData.gender'>
+                <input class="form-check-input" type="radio" #gender='ngModel' name='gender' value="Male"
+                    [(ngModel)]='formData.gender' required>
                 <label class="form-check-label">
                     Male
                 </label>
-                <input class="form-check-input ml-1" type="radio" name='gender' value="Female"
-                    [(ngModel)]='formData.gender'>
+                <input class="form-check-input ml-1" type="radio" #gender='ngModel' name='gender' value="Female"
+                    [(ngModel)]='formData.gender' required>
                 <label class="form-check-label ml-4">
                     Female
                 </label>
+                <small [class.d-node]='gender.valid'></small>
             </div>
         </div>
         <div class="form-group">
             <label for="name">Country</label>
-            <select class='form-control' name='country' #topic='ngModel' [(ngModel)]='formData.country'
+            <select class='form-control' name='country' (blur)="checkTopic(topic.value)"
+                (change)='checkTopic(topic.value)' #topic='ngModel' [(ngModel)]='formData.country'
                 placeholder="Select Your Country" required>
-                <ng-container *ngFor='let country of coutries'>
-                    <option value='{{country}}'>{{country}}</option>
-                </ng-container>
+                <option value='default' default>Select your country </option>
+                <option *ngFor='let country of coutries' value='{{country}}'>{{country}}</option>
             </select>
-            <ng-container style='color:red'> Please select topic </ng-container>
+            <small *ngIf='isTopisHasError && topic.touched' style='color:red'> Please Select the country </small>
         </div>
         <div class="form-group">
+            <label> Select your skills</label><br>
             <div class="form-check form-check-inline">
                 <ng-container *ngFor='let skill of skills'>
                     <input class="form-check-input ml-2" type="checkbox" name='skill' value="skill"
@@ -61,7 +66,6 @@
                 </ng-container>
             </div>
         </div>
+        <button [disabled]='demoform.invalid' class='btn btn-danger'>Submit</button>
     </form>
 </div>
-
-{{demoform.valid}}
